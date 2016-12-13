@@ -9,7 +9,7 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JButton;
 
 
-public class Client {
+public class Client_Main {
 
 	private JFrame frame;
 	private JTextField textField;
@@ -22,7 +22,7 @@ public class Client {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Client window = new Client();
+					Client_Main window = new Client_Main();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -34,7 +34,7 @@ public class Client {
 	/**
 	 * Create the application.
 	 */
-	public Client() {
+	public Client_Main() {
 		initialize();
 	}
 
