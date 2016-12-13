@@ -40,8 +40,6 @@ public class Client_Main {
 	 */
 	public Client_Main() {
 		initialize();
-		
-		 
 	}
 
 	/**
@@ -65,12 +63,11 @@ public class Client_Main {
 		
 		JButton btnEnvoyer = new JButton("Envoyer");
 		
-		JLabel label = new JLabel("(public) " + "0 . 0 . 0 . 0");
+		JLabel label = new JLabel("(public) " + "0 . 0 . 0 . 0");  
 		Application application=new Application();
-		label.setText("(Public) "+ application.getpublicip());
-		
+		label.setText("(Public) "+ application.getpublicip());  // l'appel du methode getpublicip
 		JLabel label_1 = new JLabel("(Local) "+ "0 . 0 . 0 . 0");
-		label_1.setText("(Local) "+ application.getlocalip());
+		label_1.setText("(Local) "+ application.getlocalip()); // l'appel du methode getlocalip
 		
 		JButton Connect = new JButton("Connect");
 		Connect.setForeground(Color.RED);
