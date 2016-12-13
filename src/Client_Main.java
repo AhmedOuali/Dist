@@ -8,6 +8,7 @@ import javax.swing.JLabel;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JButton;
 import java.awt.Color;
+import javax.swing.SwingConstants;
 
 
 public class Client_Main {
@@ -15,6 +16,7 @@ public class Client_Main {
 	private JFrame frame;
 	private JTextField textField;
 	private JTextField textField_1;
+	private JTextField textField_2;
 
 	/**
 	 * Launch the application.
@@ -72,29 +74,34 @@ public class Client_Main {
 		
 		JButton Connect = new JButton("Connect");
 		Connect.setForeground(Color.RED);
+		
+		textField_2 = new JTextField();
+		textField_2.setColumns(10);
 		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, 358, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
-							.addComponent(btnEnvoyer))
-						.addGroup(groupLayout.createSequentialGroup()
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 								.addComponent(textField, GroupLayout.PREFERRED_SIZE, 179, GroupLayout.PREFERRED_SIZE)
 								.addComponent(lblPartnerip))
-							.addPreferredGap(ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
+							.addPreferredGap(ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 								.addGroup(groupLayout.createSequentialGroup()
 									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 										.addComponent(label_1)
 										.addComponent(label))
-									.addPreferredGap(ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+									.addPreferredGap(ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
 									.addComponent(Connect))
-								.addComponent(lblYourip))))
+								.addComponent(lblYourip)))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+								.addComponent(textField_2)
+								.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, 358, GroupLayout.PREFERRED_SIZE))
+							.addGap(30)
+							.addComponent(btnEnvoyer)))
 					.addContainerGap())
 		);
 		groupLayout.setVerticalGroup(
@@ -109,13 +116,15 @@ public class Client_Main {
 							.addPreferredGap(ComponentPlacement.UNRELATED)
 							.addComponent(label)
 							.addGap(3)
-							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
 								.addGroup(groupLayout.createSequentialGroup()
 									.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 										.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 										.addComponent(label_1))
-									.addPreferredGap(ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
-									.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, 274, GroupLayout.PREFERRED_SIZE))
+									.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+									.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, 215, GroupLayout.PREFERRED_SIZE)
+									.addGap(18)
+									.addComponent(textField_2, GroupLayout.PREFERRED_SIZE, 38, GroupLayout.PREFERRED_SIZE))
 								.addGroup(groupLayout.createSequentialGroup()
 									.addGap(311)
 									.addComponent(btnEnvoyer))))
