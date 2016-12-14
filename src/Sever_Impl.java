@@ -1,5 +1,6 @@
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import javax.swing.JTextField;
 
 /**
  * 
@@ -10,19 +11,19 @@ import java.rmi.server.UnicastRemoteObject;
  *
  */
 public class Sever_Impl extends UnicastRemoteObject implements Server{
-
-	protected Sever_Impl() throws RemoteException {
+	JTextField textField_1;
+	protected Sever_Impl(JTextField textfield) throws RemoteException {
 		super();
+		textField_1=textfield;		
 		// TODO Auto-generated constructor stub
 	}
 	
 //--------------------------------------------------------------------
 	//Implementation de la methode textmsg
 //-------------------------------------------------------------------
-	public String textmsg(String msg){
-		String s=null;
+	public void textmsg(String msg){
 		// TODO implementation
-		return s;
+		textField_1.setText(msg);
 	}
 
 }
