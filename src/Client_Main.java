@@ -54,11 +54,12 @@ public class Client_Main {
 		textField = new JTextField();
 		textField.setColumns(10);
 		
-		JLabel lblPartnerip = new JLabel("Partner_Ip");
+		JLabel lblPartnerip = new JLabel("Partner_Ip (Ip:Port)");
 		
-		JLabel lblYourip = new JLabel("Your_Ip");
+		JLabel lblYourip = new JLabel("Your_Ip :");
 		
 		textField_1 = new JTextField();
+		textField_1.setEditable(false);
 		textField_1.setColumns(10);
 		
 		JButton btnEnvoyer = new JButton("Envoyer");
@@ -79,11 +80,11 @@ public class Client_Main {
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
+					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+						.addGroup(groupLayout.createSequentialGroup()
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addComponent(textField, GroupLayout.PREFERRED_SIZE, 179, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblPartnerip))
+								.addComponent(lblPartnerip)
+								.addComponent(textField, GroupLayout.PREFERRED_SIZE, 179, GroupLayout.PREFERRED_SIZE))
 							.addPreferredGap(ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 								.addGroup(groupLayout.createSequentialGroup()
@@ -95,7 +96,7 @@ public class Client_Main {
 								.addComponent(lblYourip)))
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-								.addComponent(textField_2)
+								.addComponent(textField_2, 358, 358, 358)
 								.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, 358, GroupLayout.PREFERRED_SIZE))
 							.addGap(30)
 							.addComponent(btnEnvoyer)))
