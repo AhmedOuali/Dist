@@ -11,14 +11,15 @@ import java.awt.Color;
 import javax.swing.SwingConstants;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JTextArea;
 
 
 public class Client_Main {
 
 	private JFrame frame;
 	private JTextField textField;
-	private JTextField textField_1;
 	private JTextField textField_2;
+	private Server server;
 
 	/**
 	 * Launch the application.
@@ -55,20 +56,21 @@ public class Client_Main {
 		
 		textField = new JTextField();
 		textField.setColumns(10);
-		
+		final JTextArea discArea = new JTextArea();
+		discArea.setEditable(false);
+		discArea.setBackground(Color.GRAY);
 		JLabel lblPartnerip = new JLabel("Partner_Ip (Ip:Port)");
 		
 		JLabel lblYourip = new JLabel("Your_Ip :");
-		
-		textField_1 = new JTextField();
-		textField_1.setEditable(false);
-		textField_1.setColumns(10);
+		server=new Server();
 		
 		JButton btnEnvoyer = new JButton("Envoyer");
 		btnEnvoyer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Client client=new Client();
 				client.envoyermsg(textField_2.getText(), textField.getText(),1099);
+				String Newligne=System.getProperty("line.separator"); 
+				discArea.setText(discArea.getText()+"\n"+"Moi :"+textField_2.getText());
 				
 			}
 		});
@@ -95,32 +97,38 @@ public class Client_Main {
 		textField_2.setColumns(10);
 		
 		JLabel lblDiscussion = new JLabel("Discussion");
+		
+		
 		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(21)
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addGroup(groupLayout.createSequentialGroup()
-							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addComponent(textField, GroupLayout.PREFERRED_SIZE, 179, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblPartnerip))
-							.addPreferredGap(ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
+							.addGap(21)
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 								.addGroup(groupLayout.createSequentialGroup()
 									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-										.addComponent(label_1)
-										.addComponent(label))
-									.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-									.addComponent(Connect))
-								.addComponent(lblYourip)))
+										.addComponent(textField, GroupLayout.PREFERRED_SIZE, 179, GroupLayout.PREFERRED_SIZE)
+										.addComponent(lblPartnerip))
+									.addPreferredGap(ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
+									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+										.addGroup(groupLayout.createSequentialGroup()
+											.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+												.addComponent(label_1)
+												.addComponent(label))
+											.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+											.addComponent(Connect))
+										.addComponent(lblYourip)))
+								.addGroup(groupLayout.createSequentialGroup()
+									.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+										.addComponent(textField_2, 358, 358, 358)
+										.addComponent(lblDiscussion, Alignment.LEADING))
+									.addGap(18)
+									.addComponent(btnEnvoyer))))
 						.addGroup(groupLayout.createSequentialGroup()
-							.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-								.addComponent(textField_2, 358, 358, 358)
-								.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, 358, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblDiscussion, Alignment.LEADING))
-							.addGap(18)
-							.addComponent(btnEnvoyer)))
+							.addGap(33)
+							.addComponent(discArea, GroupLayout.PREFERRED_SIZE, 338, GroupLayout.PREFERRED_SIZE)))
 					.addContainerGap())
 		);
 		groupLayout.setVerticalGroup(
@@ -146,13 +154,14 @@ public class Client_Main {
 					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
 						.addGroup(groupLayout.createSequentialGroup()
 							.addComponent(lblDiscussion)
-							.addGap(4)
-							.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, 215, GroupLayout.PREFERRED_SIZE)
-							.addGap(18)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(discArea, GroupLayout.PREFERRED_SIZE, 213, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
 							.addComponent(textField_2, GroupLayout.PREFERRED_SIZE, 38, GroupLayout.PREFERRED_SIZE))
 						.addComponent(btnEnvoyer))
 					.addContainerGap(18, Short.MAX_VALUE))
 		);
 		frame.getContentPane().setLayout(groupLayout);
+		server.start(discArea);
 	}
 }
