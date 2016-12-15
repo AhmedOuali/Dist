@@ -9,6 +9,8 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JButton;
 import java.awt.Color;
 import javax.swing.SwingConstants;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 
 public class Client_Main {
@@ -63,6 +65,13 @@ public class Client_Main {
 		textField_1.setColumns(10);
 		
 		JButton btnEnvoyer = new JButton("Envoyer");
+		btnEnvoyer.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Client client=new Client();
+				client.envoyermsg(textField_2.getText(), textField.getText(),1099);
+				
+			}
+		});
 		
 		JLabel label = new JLabel("(public) " + "0 . 0 . 0 . 0");  
 		Application application=new Application();
@@ -70,35 +79,47 @@ public class Client_Main {
 		JLabel label_1 = new JLabel("(Local) "+ "0 . 0 . 0 . 0");
 		label_1.setText("(Local) "+ application.getlocalip()); // l'appel du methode getlocalip
 		
-		JButton Connect = new JButton("Connect");
+		final JButton Connect = new JButton("Connect");
+		Connect.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Client client=new Client();
+				if(client.testconnection(textField.getText(),1099))
+					Connect.setForeground(Color.GREEN);
+				else
+					Connect.setForeground(Color.RED);
+			}
+		});
 		Connect.setForeground(Color.RED);
 		
 		textField_2 = new JTextField();
 		textField_2.setColumns(10);
+		
+		JLabel lblDiscussion = new JLabel("Discussion");
 		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+					.addGap(21)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addComponent(lblPartnerip)
-								.addComponent(textField, GroupLayout.PREFERRED_SIZE, 179, GroupLayout.PREFERRED_SIZE))
-							.addPreferredGap(ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
+								.addComponent(textField, GroupLayout.PREFERRED_SIZE, 179, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblPartnerip))
+							.addPreferredGap(ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 								.addGroup(groupLayout.createSequentialGroup()
 									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 										.addComponent(label_1)
 										.addComponent(label))
-									.addPreferredGap(ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
+									.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 									.addComponent(Connect))
 								.addComponent(lblYourip)))
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
 								.addComponent(textField_2, 358, 358, 358)
-								.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, 358, GroupLayout.PREFERRED_SIZE))
-							.addGap(30)
+								.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, 358, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblDiscussion, Alignment.LEADING))
+							.addGap(18)
 							.addComponent(btnEnvoyer)))
 					.addContainerGap())
 		);
@@ -107,29 +128,30 @@ public class Client_Main {
 				.addGroup(groupLayout.createSequentialGroup()
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(17)
-							.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-								.addComponent(lblPartnerip)
-								.addComponent(lblYourip))
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(label)
-							.addGap(3)
-							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
-								.addGroup(groupLayout.createSequentialGroup()
-									.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-										.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-										.addComponent(label_1))
-									.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-									.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, 215, GroupLayout.PREFERRED_SIZE)
-									.addGap(18)
-									.addComponent(textField_2, GroupLayout.PREFERRED_SIZE, 38, GroupLayout.PREFERRED_SIZE))
-								.addGroup(groupLayout.createSequentialGroup()
-									.addGap(311)
-									.addComponent(btnEnvoyer))))
-						.addGroup(groupLayout.createSequentialGroup()
 							.addGap(56)
-							.addComponent(Connect)))
-					.addContainerGap())
+							.addComponent(Connect))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(17)
+							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+								.addComponent(lblYourip)
+								.addComponent(lblPartnerip))
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+								.addGroup(groupLayout.createSequentialGroup()
+									.addComponent(label)
+									.addGap(3)
+									.addComponent(label_1))
+								.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
+					.addGap(18)
+					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(lblDiscussion)
+							.addGap(4)
+							.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, 215, GroupLayout.PREFERRED_SIZE)
+							.addGap(18)
+							.addComponent(textField_2, GroupLayout.PREFERRED_SIZE, 38, GroupLayout.PREFERRED_SIZE))
+						.addComponent(btnEnvoyer))
+					.addContainerGap(18, Short.MAX_VALUE))
 		);
 		frame.getContentPane().setLayout(groupLayout);
 	}

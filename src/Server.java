@@ -1,17 +1,19 @@
-import java.rmi.Remote;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 
-/**
- * 
- */
 
-/**
- * @author root
- *
- */
-public interface Server extends Remote {
-	
-//-----------Methode qui affiche un message envoyé par le partenaire--------------------
-	public void textmsg(String msg);
-	
+public class Server {
+	public static void main(String[] args){
+		try{
+			Registry reg=LocateRegistry.createRegistry(1099);
+			Server_Implementation op = new Server_Implementation();
+			reg.rebind("mymsg", op);
+			System.out.println("server is ready...");
+		}
+		catch(Exception ex){
+			ex.printStackTrace();
+		}
+		
+	}
 
 }
