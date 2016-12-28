@@ -1,8 +1,10 @@
 import java.awt.EventQueue;
 
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.LayoutStyle.ComponentPlacement;
@@ -12,14 +14,27 @@ import javax.swing.SwingConstants;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextArea;
+import javax.swing.JPanel;
+import java.awt.Font;
+import java.util.Enumeration;
+import java.util.Hashtable;
+import javax.swing.JList;
+import java.awt.List;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 
 public class Client_Main {
 
-	private JFrame frame;
+	private JFrame frmProjetdistribue;
+	private Server server; //object server
+	private Client client; //objet Client
 	private JTextField textField;
-	private JTextField textField_2;
-	private Server server;
+	private JTextField textField_1;
+	private JTextField textField_UserName;
+	private String UserName; //username
+	private Hashtable tableIp; //Hashtable contenant les username et les ip
+	private Application app; //objet application contenant les (utilitaire) 
 
 	/**
 	 * Launch the application.
@@ -29,7 +44,7 @@ public class Client_Main {
 			public void run() {
 				try {
 					Client_Main window = new Client_Main();
-					window.frame.setVisible(true);
+					window.frmProjetdistribue.setVisible(true);
 					
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -49,119 +64,152 @@ public class Client_Main {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame();
-		frame.setResizable(false);
-		frame.setBounds(100, 100, 504, 442);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmProjetdistribue = new JFrame();
+		frmProjetdistribue.setTitle("Projet_Distribuée_(by Ahmed Ouali)");
+		frmProjetdistribue.setResizable(false);
+		frmProjetdistribue.setBounds(100, 100, 558, 473);
+		frmProjetdistribue.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		server=new Server();
+		client=new Client();
+		Application application=new Application();
+		frmProjetdistribue.getContentPane().setLayout(null);
+		
+		final JPanel panel2 = new JPanel();
+		panel2.setBounds(0, 0, 556, 438);
+		frmProjetdistribue.getContentPane().add(panel2);
+		panel2.setLayout(null);
+		
+		final JTextArea textArea = new JTextArea();
+		textArea.setEditable(false);
+		textArea.setBackground(Color.GRAY);
+		textArea.setBounds(24, 163, 338, 213);
 		
 		textField = new JTextField();
 		textField.setColumns(10);
-		final JTextArea discArea = new JTextArea();
-		discArea.setEditable(false);
-		discArea.setBackground(Color.GRAY);
-		JLabel lblPartnerip = new JLabel("Partner_Ip (Ip:Port)");
+		textField.setBounds(12, 95, 179, 19);
+		panel2.add(textField);
 		
-		JLabel lblYourip = new JLabel("Your_Ip :");
-		server=new Server();
+		JLabel label = new JLabel("Partner_Ip (Ip:Port)");
+		label.setBounds(12, 54, 135, 15);
+		panel2.add(label);
 		
-		JButton btnEnvoyer = new JButton("Envoyer");
-		btnEnvoyer.addActionListener(new ActionListener() {
+		JLabel label_1 = new JLabel("(Local) 127.0.1.1");
+		label_1.setBounds(226, 99, 114, 15);
+		panel2.add(label_1);
+		
+		JLabel label_2 = new JLabel("(Public) 41.227.65.215");
+		label_2.setBounds(226, 81, 151, 15);
+		panel2.add(label_2);
+		
+		final JLabel label_5 = new JLabel("0");
+		label_5.setBounds(454, 195, 70, 15);
+		panel2.add(label_5);
+		panel2.show(false);
+		
+		final List list = new List();
+		list.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				textField.setText(""+tableIp.get(list.getSelectedItem()));
+			}
+		});
+		list.setBounds(410, 216, 114, 144);
+		panel2.add(list);
+		
+		JButton btnRecherche = new JButton("Recherche");
+		btnRecherche.addActionListener(new ActionListener() {
+			
+			//-----------------------Bouton recherche-------------------------------------
+			//----------------------------------------------------------------------------
 			public void actionPerformed(ActionEvent arg0) {
-				Client client=new Client();
-				client.envoyermsg(textField_2.getText(), textField.getText(),1099);
-				String Newligne=System.getProperty("line.separator"); 
-				discArea.setText(discArea.getText()+"\n"+"Moi :"+textField_2.getText());
+				
+				tableIp=app.ipReachable("192.168.1",1099);
+				label_5.setText(""+tableIp.size());
+				Enumeration enu;
+				enu= tableIp.keys();
+				while(enu.hasMoreElements()){
+					
+					list.addItem(enu.nextElement().toString());
+				}
 				
 			}
+			//////////////////////////////////////////////////////////////////////////////
 		});
+		btnRecherche.setForeground(Color.RED);
+		btnRecherche.setBounds(400, 158, 114, 25);
+		panel2.add(btnRecherche);
 		
-		JLabel label = new JLabel("(public) " + "0 . 0 . 0 . 0");  
-		Application application=new Application();
-		label.setText("(Public) "+ application.getpublicip());  // l'appel du methode getpublicip
-		JLabel label_1 = new JLabel("(Local) "+ "0 . 0 . 0 . 0");
-		label_1.setText("(Local) "+ application.getlocalip()); // l'appel du methode getlocalip
+		JLabel label_3 = new JLabel("Your_Ip :");
+		label_3.setBounds(226, 54, 60, 15);
+		panel2.add(label_3);
 		
-		final JButton Connect = new JButton("Connect");
-		Connect.addActionListener(new ActionListener() {
+		textField_1 = new JTextField();
+		textField_1.setColumns(10);
+		textField_1.setBounds(12, 388, 358, 38);
+		panel2.add(textField_1);
+		
+		JLabel label_4 = new JLabel("Discussion");
+		label_4.setBounds(12, 136, 76, 15);
+		panel2.add(label_4);
+		
+		JButton button_1 = new JButton("Envoyer");
+		button_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Client client=new Client();
-				if(client.testconnection(textField.getText(),1099))
-					Connect.setForeground(Color.GREEN);
-				else
-					Connect.setForeground(Color.RED);
+				client.envoyermsg(textField_1.getText(),textField.getText(),1099);
+				textArea.setText(textArea.getText()+"\n"+"Moi :"+textField_1.getText());
 			}
 		});
-		Connect.setForeground(Color.RED);
+		/////////////////////////////////////////////////////////////////////////////////////////////////////
+		button_1.setBounds(388, 401, 90, 25);
+		panel2.add(button_1);
+		panel2.add(textArea);
+		final JPanel panel1 = new JPanel();
+		panel1.setBounds(0, 0, 556, 438);
+		frmProjetdistribue.getContentPane().add(panel1);
+		panel1.setLayout(null);
 		
-		textField_2 = new JTextField();
-		textField_2.setColumns(10);
+		JButton btnSeConnecter = new JButton("Se Connecter");
 		
-		JLabel lblDiscussion = new JLabel("Discussion");
+		btnSeConnecter.setBounds(110, 272, 344, 36);
+		panel1.add(btnSeConnecter);
 		
+		textField_UserName = new JTextField();
+		textField_UserName.setBounds(229, 236, 225, 24);
+		panel1.add(textField_UserName);
+		textField_UserName.setColumns(10);
 		
-		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
-		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(21)
-							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addGroup(groupLayout.createSequentialGroup()
-									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-										.addComponent(textField, GroupLayout.PREFERRED_SIZE, 179, GroupLayout.PREFERRED_SIZE)
-										.addComponent(lblPartnerip))
-									.addPreferredGap(ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
-									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-										.addGroup(groupLayout.createSequentialGroup()
-											.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-												.addComponent(label_1)
-												.addComponent(label))
-											.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-											.addComponent(Connect))
-										.addComponent(lblYourip)))
-								.addGroup(groupLayout.createSequentialGroup()
-									.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-										.addComponent(textField_2, 358, 358, 358)
-										.addComponent(lblDiscussion, Alignment.LEADING))
-									.addGap(18)
-									.addComponent(btnEnvoyer))))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(33)
-							.addComponent(discArea, GroupLayout.PREFERRED_SIZE, 338, GroupLayout.PREFERRED_SIZE)))
-					.addContainerGap())
-		);
-		groupLayout.setVerticalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(56)
-							.addComponent(Connect))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(17)
-							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(lblYourip)
-								.addComponent(lblPartnerip))
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-								.addGroup(groupLayout.createSequentialGroup()
-									.addComponent(label)
-									.addGap(3)
-									.addComponent(label_1))
-								.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
-					.addGap(18)
-					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(lblDiscussion)
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(discArea, GroupLayout.PREFERRED_SIZE, 213, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(textField_2, GroupLayout.PREFERRED_SIZE, 38, GroupLayout.PREFERRED_SIZE))
-						.addComponent(btnEnvoyer))
-					.addContainerGap(18, Short.MAX_VALUE))
-		);
-		frame.getContentPane().setLayout(groupLayout);
-		server.start(discArea);
+		JLabel lblUsername = new JLabel("UserName");
+		lblUsername.setFont(new Font("Dialog", Font.BOLD, 16));
+		lblUsername.setBounds(120, 236, 129, 24);
+		panel1.add(lblUsername);
+		
+		//--------------Bouton-connecter----------------------------------------------
+		//----------------------------------------------------------------------------
+		btnSeConnecter.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				UserName=textField_UserName.getText();
+				if(UserName.isEmpty()==false && !UserName.startsWith(" ")){
+					server.start(textArea, UserName);
+					app=new Application();
+					
+					
+					JDialog.setDefaultLookAndFeelDecorated(true);
+				    int response = JOptionPane.showConfirmDialog(null, "          Voullez vous faire un scan du reseau"+"\n"+"(cette operation peut prendre quelques secondes) ?", "Confirm",JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+					
+				    if(response == JOptionPane.YES_OPTION){	 
+						 tableIp=app.ipReachable("192.168.1",1099);
+							label_5.setText(""+tableIp.size());
+							Enumeration enu;
+							enu= tableIp.keys();
+							while(enu.hasMoreElements()){
+								list.addItem(enu.nextElement().toString());
+							}
+					 }
+					 panel1.show(false);
+					 panel2.show(true);
+				}
+			}
+		});
+		/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	}
 }

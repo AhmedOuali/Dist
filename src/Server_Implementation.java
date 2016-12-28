@@ -14,10 +14,11 @@ import javax.swing.JTextField;
  */
 public class Server_Implementation extends UnicastRemoteObject implements Server_Interface{
 	JTextArea zonetext;
-   Server_Implementation(JTextArea zonetext) throws RemoteException {
+	String UserName;
+   Server_Implementation(JTextArea zonetext,String UserName) throws RemoteException {
 		super();
 		this.zonetext=zonetext;
-		
+		this.UserName=UserName;
 		// TODO Auto-generated constructor stub
 	}
 
@@ -26,11 +27,15 @@ public class Server_Implementation extends UnicastRemoteObject implements Server
 //-------------------------------------------------------------------
 	public void textmsg(String msg) throws RemoteException{
 		try{
-			zonetext.setText(zonetext.getText()+"\n"+"partenaire :"+msg);
+			zonetext.setText(zonetext.getText()+"\n"+UserName+" :"+msg);
 		}
 		catch(Exception ex){
 			ex.printStackTrace();
 		}
+	}
+	
+	public String getUserName() throws RemoteException{
+		return UserName;
 	}
 
 }
